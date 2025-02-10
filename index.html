@@ -41,13 +41,32 @@
         .navbar-brand, .nav-link {
             color: #ff5722 !important;
         }
-        .header {
-            background: url('https://st1.techlusive.in/wp-content/uploads/2024/09/BGMI-3.4-update.jpg') no-repeat center center/cover;
-            padding: 150px 0;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      .header {
+    position: relative;
+    background: url('https://st1.techlusive.in/wp-content/uploads/2024/09/BGMI-3.4-update.jpg') no-repeat center center/cover;
+    padding: 150px 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Adjust for more darkness */
+    z-index: 1;
+}
+
+.header * {
+    position: relative;
+    z-index: 2; /* Ensures text stays above the overlay */
+}
+
         }
         .header h1 {
-            font-size: 3.5rem;
+            font-size: 3.1rem;
             font-weight: 700;
             color: #ff5722;
         }
