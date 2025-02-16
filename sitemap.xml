@@ -1,0 +1,38 @@
+const fs = require("fs");
+const path = require("path");
+
+const SITE_URL = "https://boltespbgmiapk.github.io"; // 
+
+function getHtmlFiles(dir, fileList = []) {
+    const files = fs.readdirSync(dir);
+
+    files.forEach((file) => {
+        const fullPath = path.join(dir, file);
+        if (fs.statSync(fullPath).isDirectory()) {
+            getHtmlFiles(fullPath, fileList);
+        } else if (file.endsWith(".html")) {
+            fileList.push(fullPath.replace(/\\/g, "/"));
+        }
+    });
+
+    return fileList;
+}
+
+function generateSitemap() {
+    const htmlFiles = getHtmlFiles("./"); // Change this if needed
+    const today = new Date().toISOString().split("T")[0];
+
+    let sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+
+    htmlFiles.forEach((file) => {
+        const url = `${SITE_URL}/${file.replace("./", "")}`;
+        sitemapContent += `  <url>\n    <loc>${url}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>\n`;
+    });
+
+    sitemapContent += "</urlset>";
+
+    fs.writeFileSync("sitemap.xml", sitemapContent);
+    console.log("✅ Sitemap generated successfully!");
+}
+
+generateSitemap();
